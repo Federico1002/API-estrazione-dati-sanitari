@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/CSS/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    </head>
+    <body>
+
+        <header style="position: relative;">
+            <div class="image-container">
+                <img src="/static/images/ICONA1.png" style="width: 5%; margin-top: 3%;">
+                <h1>
+                    <a href="javascript:history.back()">CLINICAL DATA</a>
+                </h1>
+            </div>
+            <div>
+                <img src="/static/images/icona.png" style="width: 3%; height: 3%; margin-left: 72%;">
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cerca per cognome..." title="Type in a surname" style="width: 20%;">
+            </div>
+        </header>
+
+        <div style=" margin-left: 5%; margin-top: 3%;">
+            <button class="button" id='export-btn'>
+                <i class="fa fa-download" aria-hidden="true"> EXPORT </i>
+            </button>
+            <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Successo!</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      I dati sono stati esportati con successo!
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="button" data-dismiss="modal">Chiudi</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Link al JavaScript di jQuery -->
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+              
+              <!-- Link al JavaScript di Bootstrap -->
+              <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+              
+              <!-- Script personalizzato -->
+              <script>
+                    $(document).ready(function(){
+                        $('#export-btn').click(function(){
+                            // Recupera i dati dalla tabella HTML
+                            var data = [];
+                            $('#customers1 tbody tr').each(function(){
+                                var row = [];
+                                $(this).find('td').each(function(){
+                                    row.push($(this).text());
+                                });
+                                data.push(row);
+                            });
+                    
+                            // Invia i dati al backend tramite una richiesta AJAX
+                            $.ajax({
+                                type: 'POST',
+                                url: 'esporta_csv/',
+                                data: {
+                                    'data': JSON.stringify(data), // Invia i dati come JSON
+                                    'csrfmiddlewaretoken': '{{ csrf_token }}' 
+                                },
+                                success: function(response){
+                                    // Mostra il modal di successo
+                                    $('#success-modal').modal('show');
+                                }
+                            });
+                        });
+                    });
+              </script>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column" style="width: 80%; margin-left: 5%;">
+                <table id="customers1">
+                    <tr>
+                        <th>#</th>
+                        <th>Cognome</th>
+                        <th>Nome</th>
+                        <th>ID</th>
+                        <th>Data di nascita</th>
+                        <th>Genere</th>
+                    </tr>
+                    {% for patient in updated_data %}
+                        <tr>
+                            <td> <i class="fa fa-user-circle-o" aria-hidden="true"> </i> </td>
+                            <td>{{ patient.name.0.family }}</td>
+                            <td>{{ patient.name.0.given.0 }}</td>
+                            <td>{{ patient.id }}</td>
+                            <td>{{ patient.birthDate }}</td>
+                            <td>{{ patient.gender }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="column" style="width: 10%; margin-right: 5%;">
+                <table id="customers1">
+                    <tr>
+                        <th style="text-align: center;">Azioni</th>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <a href="record1/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <a href="record2/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <a href="record3/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <a href="record4/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <a href="record5/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <a href="record6/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <a href="record7/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                    </tr>
+                        <td style="text-align: center;">
+                            <a href="record8/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <a href="record9/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                    </tr>
+                        <td style="text-align: center;">
+                            <a href="record10/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <a href="record11/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <a href="record12/">
+                                <img src="/static/images/Eye.png" style="width:38px; height:38px;">
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>     
+        </div>
+
+        <script>
+            function myFunction() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("customers1");
+                tr = table.getElementsByTagName("tr");
+                
+                // Se il campo di input è vuoto, rimuovi tutte le evidenziazioni
+                if (filter === "") {
+                    for (i = 0; i < tr.length; i++) {
+                        tr[i].classList.remove("highlight");
+                    }
+                    return; // Esci dalla funzione se il campo di input è vuoto
+                }
+                
+                // Rimuovi eventuali evidenziazioni precedenti
+                for (i = 0; i < tr.length; i++) {
+                    tr[i].classList.remove("highlight");
+                }
+                
+                // Cerca la riga corrispondente e evidenziala
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].classList.add("highlight");
+                        }
+                    }       
+                }
+            }
+        </script>
+    
+        <br><br>
+        
+
+    </body>
+</html>

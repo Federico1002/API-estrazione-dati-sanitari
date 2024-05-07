@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <link rel="stylesheet" href="/static/CSS/style3.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/static/CSS/style.css">
+
+    </head>
+    <body>
+
+        <header style="position: relative;">
+            <div class="image-container">
+                <img src="/static/images/ICONA1.png" style="width: 5%; margin-top: 3%;">
+                <h1>
+                    <a href="javascript:history.back()">CLINICAL DATA</a>
+                </h1>
+            </div>
+        </header>
+
+        <p style="margin-top: 6%;">PIANI DI CURA</p>
+        <div style="margin-top: 1%; margin-left: 5%; ">
+            <br><br>
+            <button class="button" id='export-btn2'>
+                <i class="fa fa-download" aria-hidden="true"> EXPORT </i>
+            </button>
+            <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Successo!</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      I dati sono stati esportati con successo!
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="button" data-dismiss="modal">Chiudi</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Link al JavaScript di jQuery -->
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+              
+              <!-- Link al JavaScript di Bootstrap -->
+              <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+              
+              <!-- Script personalizzato -->
+              <script>
+                    $(document).ready(function(){
+                        $('#export-btn2').click(function(){
+                            // Recupera i dati dalla tabella HTML
+                            var data = [];
+                            $('#customers2 tbody tr').each(function(){
+                                var row = [];
+                                $(this).find('td').each(function(){
+                                    row.push($(this).text());
+                                });
+                                data.push(row);
+                            });
+                    
+                            // Invia i dati al backend tramite una richiesta AJAX
+                            $.ajax({
+                                type: 'POST',
+                                url: 'esporta_csv2/',
+                                data: {
+                                    'data': JSON.stringify(data), // Invia i dati come JSON
+                                    'csrfmiddlewaretoken': '{{ csrf_token }}' 
+                                },
+                                success: function(response){
+                                    // Mostra il modal di successo
+                                    $('#success-modal').modal('show');
+                                }
+                            });
+                        });
+                    });
+              </script>
+            </div>
+        </div>
+
+        <div>
+            <div class="row">
+                <div class="column2" style="width: 80%; margin-left: 5%;">
+                    <table id="customers2">
+                        <tr>
+                            <th>#</th>
+                            <th>ID</th>
+                            <th>Stato</th>
+                            <th>Intento</th>
+                            <th>Inizio</th>
+                            <th>Fine</th>
+                            <th>Paziente</th>
+                        </tr>
+                        {% for careplan in updated_data2 %}
+                            <tr>
+                                <td> <i class="fa fa-user-circle-o" aria-hidden="true"> </i> </td>
+                                <td>{{ careplan.id }}</td>
+                                <td>{{ careplan.status }}</td>
+                                <td>{{ careplan.intent }}</td>
+                                <td>{{ careplan.period.start }}</td>
+                                <td>{{ careplan.period.end }}</td>
+                                <td>{{ careplan.subject.reference }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <p style="margin-top: 6%;">ESAMI DIAGNOSTICI</p>
+        <div style="margin-top: 5%; margin-left: 5%; ">
+            <button class="button" id='export-btn3'>
+                <i class="fa fa-download" aria-hidden="true"> EXPORT </i>
+            </button>
+            <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Successo!</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      I dati sono stati esportati con successo!
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="button" data-dismiss="modal">Chiudi</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Link al JavaScript di jQuery -->
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+              
+              <!-- Link al JavaScript di Bootstrap -->
+              <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+              
+              <!-- Script personalizzato -->
+              <script>
+                    $(document).ready(function(){
+                        $('#export-btn3').click(function(){
+                            // Recupera i dati dalla tabella HTML
+                            var data = [];
+                            $('#customers3 tbody tr').each(function(){
+                                var row = [];
+                                $(this).find('td').each(function(){
+                                    row.push($(this).text());
+                                });
+                                data.push(row);
+                            });
+                    
+                            // Invia i dati al backend tramite una richiesta AJAX
+                            $.ajax({
+                                type: 'POST',
+                                url: 'esporta_csv3/',
+                                data: {
+                                    'data': JSON.stringify(data), // Invia i dati come JSON
+                                    'csrfmiddlewaretoken': '{{ csrf_token }}' 
+                                },
+                                success: function(response){
+                                    // Mostra il modal di successo
+                                    $('#success-modal').modal('show');
+                                }
+                            });
+                        });
+                    });
+              </script>
+            </div>
+        </div>
+
+
+        <div>
+
+            <div class="row">
+                <div class="column2" style="width: 80%; margin-left: 5%;">
+                    <table id="customers3">
+                        <tr>
+                            <th>#</th>
+                            <th>Paziente</th>
+                            <th>Descrizione</th>
+                            <th style="text-align: center;">Studio</th>
+                        </tr>
+                        {% for careplan in updated_data2 %}
+                            <tr>
+
+                                <td> <i class="fa fa-user-circle-o" aria-hidden="true"> </i> </td>
+
+                                <td> {{ images.0 }} </td>
+                                <td> {{ images.1 }} </td>
+                                <td style="text-align: center; width: 20%;">
+
+                                    <img id="myImg" crossorigin="anonymous" src="https://dicomserver.co.uk:8989/wado/studies/1.2.826.0.1.3680043.9.5458.1002.20240205104117715.8217/series/1.2.826.0.1.3680043.9.5458.1003.20240325135201479.5432/rendered" alt="CR Prostata"  style="width:30%; height: 30%;">
+
+                                </td>
+                                <!-- The Modal -->
+                                <div id="myModal" class="modal" style="overflow: auto;">
+                                    <span class="close1">&times;</span>
+                                    <img style="margin: auto; display: block; width: 50%; height: 110%;" id="img01">
+                                    <div id="caption"></div>
+                                </div>
+                                <script>
+                                    // Get the modal
+                                    var modal = document.getElementById("myModal");
+
+                                    // Get the image and insert it inside the modal - use its "alt" text as a caption
+                                    var img = document.getElementById("myImg");
+                                    var modalImg = document.getElementById("img01");
+                                    var captionText = document.getElementById("caption");
+                                    img.onclick = function(){
+                                    modal.style.display = "block";
+                                    modalImg.src = this.src;
+                                    captionText.innerHTML = this.alt;
+                                    }
+
+                                    // Get the <span> element that closes the modal
+                                    var span = document.getElementsByClassName("close1")[0];
+
+                                    // When the user clicks on <span> (x), close the modal
+                                    span.onclick = function() { 
+                                        modal.style.display = "none";
+                                    }
+
+                                    window.onclick = function(event) {
+                                        if (event.target == modal) {
+                                            modal.style.display = "none";
+                                        }
+                                    }
+                                </script>
+
+                            </tr>
+                                    
+                        {% endfor %}
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <br><br>
+        
+
+    </body>
+</html>
