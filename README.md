@@ -33,11 +33,11 @@ Per poter interagire con l'applicazione progettata ed implementata sono necessar
 In particolare:  
 1. **Requests** è una libreria semplice ma efficace che consente di inviare richieste al server. E' possibile installarla con il seguente comando da terminale:  
 
-                                    "pip install requests"  
+       pip install requests  
 
 2. **fhir.resources** è una specifica per lo scambio elettronico di informazioni sanitarie. E' stato progettato per facilitare lo scambio di dati tra diversi sistemi e applicazioni sanitarie ed è comunemente utilizzato per creare API per i dati sanitari (come in questo caso). Per quanto riguarda l'installazione è sufficiente digitare il seguente comando da terminale:
 
-                                    "pip install fhir.resources"
+       pip install fhir.resources
 
 
 
@@ -45,7 +45,7 @@ In particolare:
 ## COME AVVIARE L'API?  
 All'interno della cartella di progetto è necessario aprire il Prompt dei comandi e digitare il seguente comando:    
 
-                                    "python manage.py runserver"
+    python manage.py runserver
 
 Attraverso un qualsiasi browser digitare http://localhost:8000/api/ ed è possibile interagire con il sistema implementato.
 
