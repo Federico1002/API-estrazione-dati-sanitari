@@ -26,6 +26,21 @@ In questo progetto sono stati utilizzati:
 3.  HAPI FHIR: Public Test Server R5 (R5 sarebbe la versione 5 di FHIR)
 4.  PACS: Public PACS    
 
+## DIPENDENZE NECESSARIE ALL'AVVIO DELL'API
+Per poter interagire con l'applicazione progettata ed implementata sono necessarie alcune dipendenze python:  
+      1. requests  
+      2. fhir.resources  
+In particolare:  
+1. **Requests** è una libreria semplice ma efficace che consente di inviare richieste al server. E' possibile installarla con il seguente comando da terminale:  
+
+                                    "pip install requests"  
+
+2. **fhir.resources** è una specifica per lo scambio elettronico di informazioni sanitarie. E' stato progettato per facilitare lo scambio di dati tra diversi sistemi e applicazioni sanitarie ed è comunemente utilizzato per creare API per i dati sanitari (come in questo caso). Per quanto riguarda l'installazione è sufficiente digitare il seguente comando da terminale:
+
+                                    "pip install fhir.resources"
+
+
+
 
 ## COME AVVIARE L'API?  
 All'interno della cartella di progetto è necessario aprire il Prompt dei comandi e digitare il seguente comando:    
